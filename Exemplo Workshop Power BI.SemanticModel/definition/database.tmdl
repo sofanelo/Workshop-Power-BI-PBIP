@@ -1,4 +1,0 @@
-/// Modelo semantico do Workshop Power BI. Padronizado conforme boas praticas de nomenclatura camelCase/PascalCase.
-database
-	compatibilityLevel: 1600
-
