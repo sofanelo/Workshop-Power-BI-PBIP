@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pbir ls:*)",
+      "Bash(pbir.exe ls:*)",
+      "Read(//c/Users/gerso/.local/bin/**)",
+      "Bash(cmd //c \"pbir ls\")",
+      "Bash(cmd //c \"pbi status\")",
+      "Bash(cmd //c \"pbi connect --help\")",
+      "Bash(cmd //c \"pbi connect\")",
+      "Bash(cmd //c \"pbi model info\")",
+      "Bash(cmd //c \"pbi model --help\")",
+      "Bash(cmd //c \"pbi model get\")",
+      "Bash(cmd //c \"pbi table list\")",
+      "Bash(powershell -Command \"Unblock-File 'C:\\\\Users\\\\gerso\\\\.local\\\\bin\\\\pbir.exe'\")",
+      "Bash(cmd //c \"pbi column list -t fVendas\")",
+      "Bash(cmd //c \"pbi measure --help\")",
+      "Bash(cmd //c \"pbi measure create --help\")",
+      "Bash(cmd //c \"pbi measure create Receita -t fVendas -e \\\\\"SUM\\(fVendas[ValorTotal]\\)\\\\\" --format-string \\\\\"\\\\\\\\\\\\\"R$\\\\\\\\\\\\\" #,##0.00\\\\\" --folder Vendas\")",
+      "Bash(cmd //c \"pbi measure create \\\\\"Qtd Vendas\\\\\" -t fVendas -e \\\\\"COUNTROWS\\(fVendas\\)\\\\\" --format-string \\\\\"#,##0\\\\\" --folder Vendas\")",
+      "Bash(cmd //c \"pbi measure create \\\\\"Ticket Medio\\\\\" -t fVendas -e \\\\\"DIVIDE\\([Receita],[Qtd Vendas]\\)\\\\\" --format-string \\\\\"\\\\\\\\\\\\\"R$\\\\\\\\\\\\\" #,##0.00\\\\\" --folder Vendas\")",
+      "Bash(pbi.exe measure:*)",
+      "Bash(pbir.exe model:*)",
+      "Bash(pbir.exe pages:*)",
+      "Bash(pbir.exe connect:*)",
+      "Bash(pbir.exe add:*)",
+      "Bash(pbir.exe visuals:*)",
+      "Bash(pbir.exe validate:*)",
+      "Bash(pbi table:*)",
+      "Bash(pbi report:*)"
+    ]
+  }
+}

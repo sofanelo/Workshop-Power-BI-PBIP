@@ -1,0 +1,65 @@
+/// Dimensao de clientes com informacoes cadastrais e segmentacao.
+table dClientes
+	lineageTag: 20cb8940-5052-4c90-94cc-d5fdf6476845
+
+	/// Chave primaria da tabela Clientes
+	column IdCliente
+		dataType: string
+		lineageTag: 48b2706a-c7c4-4cc2-9ed3-58c6c0359720
+		summarizeBy: none
+		sourceColumn: ID_Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Nome completo do cliente
+	column NomeCliente
+		dataType: string
+		lineageTag: 9ded97fd-0722-4449-ab8f-af5aa050f0ef
+		summarizeBy: none
+		sourceColumn: Nome_Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Tipo do cliente (ex: Pessoa Fisica, Pessoa Juridica)
+	column Tipo
+		dataType: string
+		lineageTag: 323a18b3-2e23-48bc-8d6b-fb7c098676e5
+		summarizeBy: none
+		sourceColumn: Tipo
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Segmento de mercado do cliente
+	column Segmento
+		dataType: string
+		lineageTag: 5a1a373b-8304-4948-adb3-05247aa5af16
+		summarizeBy: none
+		sourceColumn: Segmento
+
+		annotation SummarizationSetBy = Automatic
+
+	/// FK para tabela Localizacao
+	column IdLocal
+		dataType: string
+		isHidden
+		lineageTag: 61f7f8f0-a487-4031-8a11-3054bb157c48
+		summarizeBy: none
+		sourceColumn: ID_Local
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Clientes = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\gerso\OneDrive - Minhas Planilhas\Minhas Planilhas\Comunidade Dashmaker\Cursos\Workshop Power BI na era da IA Generativa\Material Workshop\Banco de Dados\Vendas Exemplo.xlsx"), null, true),
+				    Clientes_Sheet = Fonte{[Item="Clientes",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Clientes_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID_Cliente", type text}, {"Nome_Cliente", type text}, {"Tipo", type text}, {"Segmento", type text}, {"ID_Local", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

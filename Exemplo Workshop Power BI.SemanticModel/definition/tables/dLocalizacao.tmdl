@@ -1,0 +1,55 @@
+/// Subdimensao geografica com cidade, estado e regiao.
+table dLocalizacao
+	lineageTag: 702def20-cc40-46f7-bcd7-47db0e5116cb
+
+	/// Chave primaria da tabela Localizacao
+	column IdLocal
+		dataType: string
+		lineageTag: ee826ded-ccd2-40de-97fb-5dd1b7e395be
+		summarizeBy: none
+		sourceColumn: ID_Local
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Nome da cidade
+	column Cidade
+		dataType: string
+		lineageTag: 52cfa2a6-7fad-4788-be91-94bf7a8328c3
+		summarizeBy: none
+		sourceColumn: Cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Sigla ou nome do estado (UF)
+	column Estado
+		dataType: string
+		lineageTag: 2fe4b5dd-152d-43b0-81ef-c519fb44238b
+		summarizeBy: none
+		sourceColumn: Estado
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Regiao geografica (ex: Sul, Sudeste, Norte)
+	column Regiao
+		dataType: string
+		lineageTag: 62085614-b86e-4740-83b7-30ded93b9cbf
+		summarizeBy: none
+		sourceColumn: Região
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Localização = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\gerso\OneDrive - Minhas Planilhas\Minhas Planilhas\Comunidade Dashmaker\Cursos\Workshop Power BI na era da IA Generativa\Material Workshop\Banco de Dados\Vendas Exemplo.xlsx"), null, true),
+				    Localização_Sheet = Fonte{[Item="Localização",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Localização_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID_Local", type text}, {"Cidade", type text}, {"Estado", type text}, {"Região", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

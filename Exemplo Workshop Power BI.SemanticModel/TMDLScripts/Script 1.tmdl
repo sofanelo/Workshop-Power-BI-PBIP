@@ -1,0 +1,295 @@
+createOrReplace
+
+	model Model
+		culture: pt-BR
+		defaultPowerBIDataSourceVersion: powerBI_V3
+		sourceQueryCulture: pt-BR
+		dataAccessOptions
+			legacyRedirects
+			returnErrorValuesAsNull
+
+		table Clientes
+			lineageTag: 20cb8940-5052-4c90-94cc-d5fdf6476845
+
+			column ID_Cliente
+				dataType: string
+				lineageTag: 48b2706a-c7c4-4cc2-9ed3-58c6c0359720
+				summarizeBy: none
+				sourceColumn: ID_Cliente
+
+				annotation SummarizationSetBy = Automatic
+
+			column Nome_Cliente
+				dataType: string
+				lineageTag: 9ded97fd-0722-4449-ab8f-af5aa050f0ef
+				summarizeBy: none
+				sourceColumn: Nome_Cliente
+
+				annotation SummarizationSetBy = Automatic
+
+			column Tipo
+				dataType: string
+				lineageTag: 323a18b3-2e23-48bc-8d6b-fb7c098676e5
+				summarizeBy: none
+				sourceColumn: Tipo
+
+				annotation SummarizationSetBy = Automatic
+
+			column Segmento
+				dataType: string
+				lineageTag: 5a1a373b-8304-4948-adb3-05247aa5af16
+				summarizeBy: none
+				sourceColumn: Segmento
+
+				annotation SummarizationSetBy = Automatic
+
+			column ID_Local
+				dataType: string
+				lineageTag: 61f7f8f0-a487-4031-8a11-3054bb157c48
+				summarizeBy: none
+				sourceColumn: ID_Local
+
+				annotation SummarizationSetBy = Automatic
+
+			partition Clientes = m
+				mode: import
+				source =
+						let
+						    Fonte = Excel.Workbook(File.Contents("C:\Users\gerso\OneDrive - Minhas Planilhas\Minhas Planilhas\Comunidade Dashmaker\Cursos\Workshop Power BI na era da IA Generativa\Material Workshop\Banco de Dados\Vendas Exemplo.xlsx"), null, true),
+						    Clientes_Sheet = Fonte{[Item="Clientes",Kind="Sheet"]}[Data],
+						    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Clientes_Sheet, [PromoteAllScalars=true]),
+						    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID_Cliente", type text}, {"Nome_Cliente", type text}, {"Tipo", type text}, {"Segmento", type text}, {"ID_Local", type text}})
+						in
+						    #"Tipo Alterado"
+
+			annotation PBI_NavigationStepName = Navegação
+
+			annotation PBI_ResultType = Table
+
+		table Localização
+			lineageTag: 702def20-cc40-46f7-bcd7-47db0e5116cb
+
+			column ID_Local
+				dataType: string
+				lineageTag: ee826ded-ccd2-40de-97fb-5dd1b7e395be
+				summarizeBy: none
+				sourceColumn: ID_Local
+
+				annotation SummarizationSetBy = Automatic
+
+			column Cidade
+				dataType: string
+				lineageTag: 52cfa2a6-7fad-4788-be91-94bf7a8328c3
+				summarizeBy: none
+				sourceColumn: Cidade
+
+				annotation SummarizationSetBy = Automatic
+
+			column Estado
+				dataType: string
+				lineageTag: 2fe4b5dd-152d-43b0-81ef-c519fb44238b
+				summarizeBy: none
+				sourceColumn: Estado
+
+				annotation SummarizationSetBy = Automatic
+
+			column Região
+				dataType: string
+				lineageTag: 62085614-b86e-4740-83b7-30ded93b9cbf
+				summarizeBy: none
+				sourceColumn: Região
+
+				annotation SummarizationSetBy = Automatic
+
+			partition Localização = m
+				mode: import
+				source =
+						let
+						    Fonte = Excel.Workbook(File.Contents("C:\Users\gerso\OneDrive - Minhas Planilhas\Minhas Planilhas\Comunidade Dashmaker\Cursos\Workshop Power BI na era da IA Generativa\Material Workshop\Banco de Dados\Vendas Exemplo.xlsx"), null, true),
+						    Localização_Sheet = Fonte{[Item="Localização",Kind="Sheet"]}[Data],
+						    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Localização_Sheet, [PromoteAllScalars=true]),
+						    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID_Local", type text}, {"Cidade", type text}, {"Estado", type text}, {"Região", type text}})
+						in
+						    #"Tipo Alterado"
+
+			annotation PBI_NavigationStepName = Navegação
+
+			annotation PBI_ResultType = Table
+
+		table Produtos
+			lineageTag: e22c773f-0b9e-4b14-9efc-e891982cf6fe
+
+			column ID_Produto
+				dataType: string
+				lineageTag: d484d7cc-5d9d-4e0c-acdf-c55e61acbbfa
+				summarizeBy: none
+				sourceColumn: ID_Produto
+
+				annotation SummarizationSetBy = Automatic
+
+			column Nome_Produto
+				dataType: string
+				lineageTag: 6fa78a57-2460-4da0-b739-97760f32fa00
+				summarizeBy: none
+				sourceColumn: Nome_Produto
+
+				annotation SummarizationSetBy = Automatic
+
+			column Categoria
+				dataType: string
+				lineageTag: af0f487a-0af2-461f-b348-fd2d119f277e
+				summarizeBy: none
+				sourceColumn: Categoria
+
+				annotation SummarizationSetBy = Automatic
+
+			column Preço_Unitário
+				dataType: double
+				lineageTag: 5cac6831-2d5f-4681-bd70-b55747b6a86a
+				summarizeBy: none
+				sourceColumn: Preço_Unitário
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			column Custo_Unitário
+				dataType: int64
+				formatString: 0
+				lineageTag: 7757d4fc-1379-4888-a828-2fc1f8adb634
+				summarizeBy: none
+				sourceColumn: Custo_Unitário
+
+				annotation SummarizationSetBy = Automatic
+
+			partition Produtos = m
+				mode: import
+				source =
+						let
+						    Fonte = Excel.Workbook(File.Contents("C:\Users\gerso\OneDrive - Minhas Planilhas\Minhas Planilhas\Comunidade Dashmaker\Cursos\Workshop Power BI na era da IA Generativa\Material Workshop\Banco de Dados\Vendas Exemplo.xlsx"), null, true),
+						    Produtos_Sheet = Fonte{[Item="Produtos",Kind="Sheet"]}[Data],
+						    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Produtos_Sheet, [PromoteAllScalars=true]),
+						    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID_Produto", type text}, {"Nome_Produto", type text}, {"Categoria", type text}, {"Preço_Unitário", type number}, {"Custo_Unitário", Int64.Type}})
+						in
+						    #"Tipo Alterado"
+
+			annotation PBI_NavigationStepName = Navegação
+
+			annotation PBI_ResultType = Table
+
+		table Vendas
+			lineageTag: 07ed16ec-dd80-436b-bbcc-367596930282
+
+			column ID_Venda
+				dataType: string
+				lineageTag: 45d77b65-c4f5-4a10-85d8-f8f5dbed4847
+				summarizeBy: none
+				sourceColumn: ID_Venda
+
+				annotation SummarizationSetBy = Automatic
+
+			column Data
+				dataType: dateTime
+				formatString: Long Date
+				lineageTag: adff9c42-9cdb-4666-acdc-db6e29dec469
+				summarizeBy: none
+				sourceColumn: Data
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation UnderlyingDateTimeDataType = Date
+
+			column ID_Cliente
+				dataType: string
+				lineageTag: d0537b52-7f4e-4ad0-a67e-7200eab742e6
+				summarizeBy: none
+				sourceColumn: ID_Cliente
+
+				annotation SummarizationSetBy = Automatic
+
+			column ID_Produto
+				dataType: string
+				lineageTag: 5665e53f-7b11-4346-b4e5-3389e34e9ce1
+				summarizeBy: none
+				sourceColumn: ID_Produto
+
+				annotation SummarizationSetBy = Automatic
+
+			column Quantidade
+				dataType: int64
+				formatString: 0
+				lineageTag: 19524d5c-3dff-45fd-8782-50c261cfd724
+				summarizeBy: sum
+				sourceColumn: Quantidade
+
+				annotation SummarizationSetBy = Automatic
+
+			column Preço_Unitário
+				dataType: double
+				lineageTag: 2c9f7512-4b02-4717-99d2-701555215d2d
+				summarizeBy: sum
+				sourceColumn: Preço_Unitário
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			column Valor_Total
+				dataType: double
+				lineageTag: f03e3073-3b4d-4ab3-8a65-0342c28312ed
+				summarizeBy: sum
+				sourceColumn: Valor_Total
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			column Forma_Pagamento
+				dataType: string
+				lineageTag: 406d49f8-9c5f-4130-a36d-a212932efc41
+				summarizeBy: none
+				sourceColumn: Forma_Pagamento
+
+				annotation SummarizationSetBy = Automatic
+
+			column Status
+				dataType: string
+				lineageTag: 0a7ab2a4-f83c-4961-9167-b50e4c1dc479
+				summarizeBy: none
+				sourceColumn: Status
+
+				annotation SummarizationSetBy = Automatic
+
+			partition Vendas = m
+				mode: import
+				source =
+						let
+						    Fonte = Excel.Workbook(File.Contents("C:\Users\gerso\OneDrive - Minhas Planilhas\Minhas Planilhas\Comunidade Dashmaker\Cursos\Workshop Power BI na era da IA Generativa\Material Workshop\Banco de Dados\Vendas Exemplo.xlsx"), null, true),
+						    Vendas_Sheet = Fonte{[Item="Vendas",Kind="Sheet"]}[Data],
+						    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Vendas_Sheet, [PromoteAllScalars=true]),
+						    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID_Venda", type text}, {"Data", type date}, {"ID_Cliente", type text}, {"ID_Produto", type text}, {"Quantidade", Int64.Type}, {"Preço_Unitário", type number}, {"Valor_Total", type number}, {"Forma_Pagamento", type text}, {"Status", type text}})
+						in
+						    #"Tipo Alterado"
+
+			annotation PBI_NavigationStepName = Navegação
+
+			annotation PBI_ResultType = Table
+
+		relationship AutoDetected_d7d1781e-d343-4192-ae82-57b95469ace3
+			fromColumn: Vendas.ID_Cliente
+			toColumn: Clientes.ID_Cliente
+
+		relationship AutoDetected_866177a1-ec18-4356-b3c6-8ca5fefa9935
+			fromColumn: Clientes.ID_Local
+			toColumn: Localização.ID_Local
+
+		relationship AutoDetected_e7f2f757-3beb-4242-a161-b179fd052d0b
+			fromColumn: Vendas.ID_Produto
+			toColumn: Produtos.ID_Produto
+
+		cultureInfo pt-BR
+
+		annotation __PBI_TimeIntelligenceEnabled = 0
+
+		annotation PBI_QueryOrder = ["Clientes","Localização","Produtos","Vendas"]
+

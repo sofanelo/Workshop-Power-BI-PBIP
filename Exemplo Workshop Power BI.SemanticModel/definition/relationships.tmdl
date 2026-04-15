@@ -1,0 +1,16 @@
+relationship Vendas_IdCliente_Clientes_IdCliente
+	fromColumn: fVendas.IdCliente
+	toColumn: dClientes.IdCliente
+
+relationship Vendas_IdProduto_Produtos_IdProduto
+	fromColumn: fVendas.IdProduto
+	toColumn: dProdutos.IdProduto
+
+relationship Vendas_Data_Calendário_Date
+	fromColumn: fVendas.Data
+	toColumn: dCalendario.DataCompleta
+
+relationship Clientes_IdLocal_Localização_IdLocal
+	fromColumn: dClientes.IdLocal
+	toColumn: dLocalizacao.IdLocal
+

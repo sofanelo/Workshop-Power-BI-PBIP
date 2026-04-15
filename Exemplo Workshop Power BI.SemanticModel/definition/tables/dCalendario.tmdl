@@ -1,0 +1,98 @@
+/// Dimensao de tempo para analise temporal (ano, mes, trimestre).
+table dCalendario
+	lineageTag: 1085182f-00b4-469a-9ebf-c57252bb2fa5
+	dataCategory: Time
+
+	/// Data completa no formato date (PK da tabela de calendario). Marcada como Date Table.
+	column DataCompleta
+		isUnique
+		lineageTag: e4ed8c6a-da43-4654-9fd1-3a639f00b0a0
+		summarizeBy: none
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Ano da data (ex: 2024, 2025)
+	column Ano
+		lineageTag: c06f2f62-aa72-4c90-a714-a0b05ca120f7
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ano]
+
+		annotation SummarizationSetBy = User
+
+	/// Numero do mes (1 a 12)
+	column MesNumero
+		lineageTag: 488ee068-edae-4459-869c-8563daffb058
+		summarizeBy: sum
+		sourceColumn: [Mês Número]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Nome completo do mes (ex: Janeiro, Fevereiro)
+	column MesNome
+		lineageTag: 406630aa-b7cc-4301-ae06-4ee1db4762c0
+		summarizeBy: none
+		sourceColumn: [Mês]
+		sortByColumn: MesNumero
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Abreviacao do mes com 3 letras (ex: Jan, Fev, Mar)
+	column MesAbreviado
+		lineageTag: 196918b6-cfb9-444b-aef4-92eb3ac10007
+		summarizeBy: none
+		sourceColumn: [Mês Abreviado]
+		sortByColumn: MesNumero
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Trimestre do ano (ex: T1, T2, T3, T4)
+	column Trimestre
+		lineageTag: 20164678-cc4b-4285-9036-aded382a5ca3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Trimestre]
+		sortByColumn: MesNumero
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Numero do dia no mes (1 a 31)
+	column Dia
+		lineageTag: 194ee488-c509-4553-b1ca-941cae6906af
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Dia]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Nome do dia da semana (ex: Segunda, Terca)
+	column DiaSemana
+		lineageTag: feeb9c8d-ccba-457f-b410-b0822b222893
+		summarizeBy: none
+		sourceColumn: [Dia da Semana]
+		sortByColumn: DiaSemanaNumero
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Numero do dia da semana (1=Domingo a 7=Sabado)
+	column DiaSemanaNumero
+		lineageTag: a148140c-f692-4fc1-8678-5bb9350045af
+		summarizeBy: sum
+		sourceColumn: [Dia da Semana Número]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Concatenacao de Ano e Mes no formato AAAA-MM para ordenacao cronologica
+	column AnoMes
+		lineageTag: e3415e5a-eee1-477e-9eb8-671c66acc836
+		summarizeBy: none
+		sourceColumn: [Ano-Mês]
+		sortByColumn: DataCompleta
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendário = calculated
+		mode: import
+		source = ADDCOLUMNS(CALENDARAUTO(), "Ano", YEAR([Date]), "Mês Número", MONTH([Date]), "Mês", FORMAT([Date], "MMMM"), "Mês Abreviado", FORMAT([Date], "MMM"), "Trimestre", "T" & FORMAT([Date], "Q"), "Dia", DAY([Date]), "Dia da Semana", FORMAT([Date], "dddd"), "Dia da Semana Número", WEEKDAY([Date], 2), "Ano-Mês", FORMAT([Date], "YYYY-MM"))
+

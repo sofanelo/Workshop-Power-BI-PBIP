@@ -1,0 +1,67 @@
+/// Dimensao de produtos com categorias, precos e custos.
+table dProdutos
+	lineageTag: e22c773f-0b9e-4b14-9efc-e891982cf6fe
+
+	/// Chave primaria da tabela Produtos
+	column IdProduto
+		dataType: string
+		lineageTag: d484d7cc-5d9d-4e0c-acdf-c55e61acbbfa
+		summarizeBy: none
+		sourceColumn: ID_Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Nome comercial do produto
+	column NomeProduto
+		dataType: string
+		lineageTag: 6fa78a57-2460-4da0-b739-97760f32fa00
+		summarizeBy: none
+		sourceColumn: Nome_Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Categoria do produto para agrupamento
+	column Categoria
+		dataType: string
+		lineageTag: af0f487a-0af2-461f-b348-fd2d119f277e
+		summarizeBy: none
+		sourceColumn: Categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Preco de tabela do produto
+	column PrecoUnitario
+		dataType: double
+		lineageTag: 5cac6831-2d5f-4681-bd70-b55747b6a86a
+		summarizeBy: none
+		sourceColumn: Preço_Unitário
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Custo unitario do produto (valor monetario decimal)
+	column CustoUnitario
+		dataType: decimal
+		formatString: 0
+		lineageTag: 7757d4fc-1379-4888-a828-2fc1f8adb634
+		summarizeBy: none
+		sourceColumn: Custo_Unitário
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Produtos = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\gerso\OneDrive - Minhas Planilhas\Minhas Planilhas\Comunidade Dashmaker\Cursos\Workshop Power BI na era da IA Generativa\Material Workshop\Banco de Dados\Vendas Exemplo.xlsx"), null, true),
+				    Produtos_Sheet = Fonte{[Item="Produtos",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Produtos_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID_Produto", type text}, {"Nome_Produto", type text}, {"Categoria", type text}, {"Preço_Unitário", type number}, {"Custo_Unitário", Currency.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

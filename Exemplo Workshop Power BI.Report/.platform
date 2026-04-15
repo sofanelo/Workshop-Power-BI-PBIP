@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Exemplo Workshop Power BI"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "40361474-a707-4cd3-9276-d3ac4cca52ba"
+  }
+}
